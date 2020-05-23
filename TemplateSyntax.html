@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Template Syntax</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- One time interpolation -->
+        <div>msg: {{msg}}</div>
+        <button @click="msg+='1'">Try to change the message</button>
+        <!-- Raw HTML -->
+        <p>Using mustaches: {{rawHtml}}</p>
+        <p>Using v-html directive: <span v-html="rawHtml"></span></p>
+        <!-- Attributes -->
+        <div :id="dynamicId">
+            This div has an attribute named `id`
+        </div>
+        <button :disabled="isButtonDisabled">Button</button>
+        <!-- Directives -->
+        <div>
+            <span>Now you see <span v-if="seen">me</span></span>
+        </div>
+    </div>
+    <script>
+        new Vue({
+            el: "#app",
+            data: function(){
+                return {
+                    msg: "Hello World!",
+                    rawHtml:`
+                        <span style="color: red">
+                            This should be red.
+                        </span>
+                    `,
+                    dynamicId: Math.floor(Math.random() * 10),
+                    isButtonDisabled: true,
+                    seen: false,
+                }
+            }
+        })
+    </script>
+</body>
+</html>
