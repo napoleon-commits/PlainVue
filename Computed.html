@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Computed</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.13.1/lodash.min.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <p>Original message: {{message}}</p>
+        <p>Computed reversed message: {{reversedMessageComp}}</p>
+        <p>Method reversed message: {{reversedMessageFunc()}}</p>
+        <!-- Computed vs Watched Property -->
+        <div>
+            {{fullName}}
+        </div>
+        <!-- Watchers -->
+        <div>
+            <p>Ask a yes/no question <input v-model="question"></p>
+            <p>{{answer}}</p>
+        </div>
+    </div>
+    <script>
+        const vm = new Vue({
+            el: "#app",
+            data: function () {
+                return {
+                    message: "Hello",
+                    lastName: "Bar",
+                    firstName: "Foo",
+                    question: "",
+                    answer: "I cannot give you an answer until you ask a question!"
+                }
+            },
+            computed: {
+                reversedMessageComp: function () {
+                    return this.message.split('').reverse().join('')
+                },
+                fullName: {
+                    get: function () {
+                        return this.firstName + ' ' + this.lastName;
+                    },
+                    set: function (newValue) {
+                        const names = newValue.split(' ');
+                        this.firstName = names[0];
+                        this.lastName = names[names.length - 1];
+                    }
+                }
+            },
+            methods: {
+                reversedMessageFunc: function () {
+                    return this.message.split('').reverse().join('')
+                },
+                getAnswer: function(){
+                    if(this.question.indexOf('?') === -1){
+                        this.answer = "Questions usually have a question mark ;)"
+                        return;
+                    }
+                    this.answer = 'Thinking...';
+                    const vm = this;
+                    axios.get('https://yesno.wtf/api').then(function(response){
+                        vm.answer = response['data']['answer']
+                    }).catch(function(error){
+                        console.log(error);
+                    })
+                }
+            },
+            watch: {
+                question: function(){
+                    this.answer = "Waiting for you to stop typing...";
+                    this.debouncedAnswer();
+                }
+            },
+            created: function(){
+                this.debouncedAnswer = _.debounce(this.getAnswer, 500);
+            }
+        })
+    </script>
+</body>
+
+</html>
