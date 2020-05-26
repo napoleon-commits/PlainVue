@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Event Handling</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- Listening to Events -->
+        <button @click="counter+=1">Add 1</button>
+        <p>The button has been clicked {{counter}} times.</p>
+        <!-- Method Event Handlers -->
+        <button @click="greet">Greet</button>
+        <!-- Methods in Inline Handlers -->
+        <button @click="say('hi')">Say hi</button>
+        <button @click="say('what')">Say what</button>
+        <!--  -->
+        <!--  -->
+        <!--  -->
+        <button @click="warn('Form cannot be submitted yet.', $event)">Submit</button>
+        <!--  -->
+        <!--  -->
+        <!--  -->
+        <a href="#" @click.once="once">Some anchor tag</a>
+        <!-- System Modifier Keys -->
+        <input 
+            v-model="altC" 
+            @keyup.alt.67="clear" 
+            placeholder="This will clear when alt + c is pressed"
+            style="width: 100%;"
+        />
+    </div>
+    <script>
+        new Vue({
+            el:"#app",
+            data(){
+                return {
+                    counter: 0,
+                    name: "Vue.js",
+                    altC: "",
+                }
+            },
+            methods: {
+                greet: function(event){
+                    alert(`Hello ${this.name}!`);
+                    if(event){
+                        alert(event.target.tagName)
+                    }
+                },
+                say: function(message){
+                    alert(message);
+                },
+                warn: function(message, event){
+                    if(event){
+                        event.preventDefault();
+                    }
+                    alert(message);
+                },
+                once: function(){
+                    alert();
+                },
+                clear: function(){
+                    this.altC = "";
+                },
+            }
+        })
+    </script>
+</body>
+</html>
