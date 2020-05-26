@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Conditional Rendering</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- v-if -->
+        <h1 v-if="awesome">Vue is awesome!</h1>
+        <h1 v-else>Oh no 😢</h1>
+
+        <!-- Confitional Groups with v-if -->
+        <template v-if="ok">
+            <h1>Title</h1>
+            <p>Paragraph 1</p>
+            <p>Paragraph 2</p>
+        </template>
+        <!--  -->
+        <!--  -->
+        <!--  -->
+        <div v-if="Math.random() > 0.5">Now you see me</div>
+        <div v-else>Now you don't</div>
+        <!-- v-else-if -->
+        <div v-if="type==='A'">A</div>
+        <div v-if="type==='B'">A</div>
+        <div v-if="type==='C'">A</div>
+        <div v-else>Not A/B/C</div>
+        <!-- Controlling Resuable Elements with key -->
+        <template v-if="loginType==='username'">
+            <label for="login">Username</label>
+            <!-- Use the key attribute if you don't want to retain data -->
+            <input 
+                type="text" 
+                id="login" 
+                placeholder="Enter your username"
+                key="username-input"
+            >
+        </template>
+        <template v-else>
+            <label for="login">Email</label>
+            <!-- Use the key attribute if you don't want to retain data -->
+            <input 
+                type="text"
+                id="login" 
+                placeholder="Enter your email address"
+                key="email-input"
+            >
+        </template>
+        <!-- v-show -->
+        <h1 v-show="ok">Hello</h1>
+    </div>
+    <script>
+        const vm = new Vue({
+            el: "#app",
+            data: function(){
+                return {
+                    awesome: false,
+                    ok: true,
+                    type: "D",
+                    loginType: "username",
+                    ok: false,
+                }
+            }
+        })
+    </script>
+</body>
+</html>
