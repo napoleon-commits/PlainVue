@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Class and Style Bindings</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <!-- Object Syntax -->
+    <div id="app">
+        Object Syntax
+    </div>
+    <script>
+        new Vue({
+            el: "#app",
+            data: function(){
+                return {
+                    isActive: true,
+                    error: null,
+                }
+            },
+            computed: {
+                classObject: function(){
+                    return{
+                        active: this.isActive && !this.error,
+                        'text-danger': this.error && this.error.type === 'fail',
+                    }
+                }
+            }
+        })
+    </script>
+    <!-- Array Syntax -->
+    <div id="app2">
+        <div :class="[{active: isActive}, errorClass]">
+            Array Syntax
+        </div>
+    </div>
+    <script>
+        new Vue({
+            el: "#app2",
+            data: function(){
+                return {
+                    activeClass: 'active',
+                    errorClass: 'text-danger',
+                    isActive: true,
+                }
+            }
+        })
+    </script>
+    <!-- With Components -->
+    <script>
+        Vue.component('my-component', {
+            template: '<p class="foo bar">Hi</p>'
+        });
+    </script>
+    <div id="app3">
+        <my-component class="baz boo" :class='{active: isActive}'></my-component>
+    </div>
+    <script>
+        new Vue({
+            el: "#app3",
+            data: function(){
+                return {
+                    isActive: true,
+                }
+            }
+        })
+    </script>
+    <!-- Binding Inline Styles -->
+    <div id="app4">
+        <div :style="styleObject">App4</div>
+    </div>
+    <script>
+        new Vue({
+            el: "#app4",
+            data: function(){
+                return {
+                    styleObject: {
+                        color: 'red',
+                        fontSize: '30px',
+                    }
+                }
+            }
+        })
+    </script>
+    <!-- Array Syntax -->
+    <div id="app5">
+        <div :style="[baseStyle, overridingStyle]">App5</div>
+    </div>
+    <script>
+        new Vue({
+            el: "#app5",
+            data: function(){
+                return {
+                    baseStyle: {
+                        color: "red",
+                        fontSize: '30px'
+                    },
+                    overridingStyle: {
+                        color: "blue"
+                    }
+                }
+            }
+        })
+    </script>
+</body>
+</html>
